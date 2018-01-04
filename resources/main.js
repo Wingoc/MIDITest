@@ -18,6 +18,10 @@ $(function(){
 	var send = $("#send");
 	var sendLoop = $("#sendLoop");
 	var messageLoop = $("#messageLoop");
+	var outputHeader = $("#outputHeader");
+	var outputBody = $("#outputBody");
+	var arrow = $("#arrow");
+	var outputShow = 0;
 
 	const singleMidi = ["0xF6", "0xF8", "0xFA", "0xFB", "0xFC", "0xFE", "0xFF"];
 
@@ -48,6 +52,22 @@ $(function(){
 	var clickTime = 0;
 	var stop = "";
 
+
+
+	// show or hide the panel-body
+	outputHeader.click(function(){
+		if (outputShow % 2 == 0) {
+			outputBody.css("display", "none");
+			arrow.attr("class", "glyphicon glyphicon-triangle-right");
+			show.css("height", "70%");
+		} else {
+			outputBody.css("display", "block");
+			arrow.attr("class", "glyphicon glyphicon-triangle-bottom");
+			show.css("height", "57%");
+		}
+		outputShow++;
+	});
+
 	
 
 
@@ -65,7 +85,7 @@ $(function(){
 						var $li = $("<li></li>");
 						var $btn = $("<button>" + WebMidi.outputs[i].name + "</button>");
 						$btn.attr({
-							"id": ""+i,
+							"id": "" + i,
 							"class": "btn btn-info col-md-12"
 						});
 						$li.append($btn);
@@ -89,10 +109,14 @@ $(function(){
 									all_noteoff++;
 									Noteoff_show.text(all_noteoff);
 
+									/* for loop test */
+									// output.send(e.data[0], [e.data[1], e.data[2]]); 
+									/* ************* */
+
 									var color = "#009797";
 									var raw = e.data;
 
-									var processed = RawDataProcessing(raw);   
+									var processed = RawDataProcessing(raw); 
 									createElement(devName, processed, color);
 
 									show[0].scrollTop = show[0].scrollHeight;
@@ -284,18 +308,18 @@ $(function(){
 								});
 
 							// F8 Listener
-							input.addListener('clock', "all", 
-								function (e) {
+							// input.addListener('clock', "all", 
+							// 	function (e) {
 
-									var color = "red";
-									var raw = e.data;
+							// 		var color = "red";
+							// 		var raw = e.data;
 
-									var processed = RawDataProcessing(raw);   
-									createElement(devName, processed, color);
+							// 		var processed = RawDataProcessing(raw);   
+							// 		createElement(devName, processed, color);
 
-									show[0].scrollTop = show[0].scrollHeight;
-									AutoClear();
-								});
+							// 		show[0].scrollTop = show[0].scrollHeight;
+							// 		AutoClear();
+							// 	});
 
 							// FA Listener
 							input.addListener('start', "all", 
@@ -340,18 +364,18 @@ $(function(){
 								});
 
 							// FE Listener
-							input.addListener('activesensing', "all", 
-								function (e) {
+							// input.addListener('activesensing', "all", 
+							// 	function (e) {
 
-									var color = "red";
-									var raw = e.data;
+							// 		var color = "red";
+							// 		var raw = e.data;
 
-									var processed = RawDataProcessing(raw);   
-									createElement(devName, processed, color);
+							// 		var processed = RawDataProcessing(raw);   
+							// 		createElement(devName, processed, color);
 
-									show[0].scrollTop = show[0].scrollHeight;
-									AutoClear();
-								});
+							// 		show[0].scrollTop = show[0].scrollHeight;
+							// 		AutoClear();
+							// 	});
 
 							// FF Listener
 							input.addListener('reset', "all", 
@@ -416,7 +440,8 @@ $(function(){
 									var midiData = [];
 									var status = "";
 
-									dataArr.forEach(function(value, index, array){
+									// dataArr.forEach(function(value, index, array){
+									dataArr.for(function(value, index, array){
 										var item = "0x" + value.toUpperCase();
 
 										if (singleMidi.indexOf(item) >= 0){
@@ -511,7 +536,8 @@ $(function(){
 	function createElement(name, arr, color){
 
 		var timestamp = (new Date()).valueOf().toString();
-		var message = (timestamp + "&emsp;&emsp;&emsp;" + name + "&emsp;&emsp;&emsp;" + arr.join("&emsp;"));
+		// &ensp; -- An English space placeholder
+		var message = (timestamp + "&emsp;&emsp;&emsp;" + name + "&emsp;&emsp;&emsp;" + arr.join("&ensp;"));
 		var elemet = $("<span>" + message + "</span>");
 		elemet.css("color", color);
 		var br = $("<br>");

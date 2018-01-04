@@ -54,11 +54,15 @@
 	</div>
 
 	<div class="row" style="">
-		<div class="panel panel-default col-md-10 col-md-offset-1" style="border: 4px solid #aaa; background-color: black;">
+		<div class="panel panel-default col-md-10 col-md-offset-1" style="border: 4px solid #aaa; background-color: black">
 			<div class="panel-heading" style="background-color: #aaa; margin-top: 1px;">
-				<h3 class="panel-title" style="width: 100%"><strong>Output Section</strong></h3>
+				<h3 class="panel-title" id="outputHeader" style="text-align: center; color: purple">
+					<strong>Output Section</strong>
+					<span class="glyphicon glyphicon-triangle-bottom" id="arrow" aria-hidden="true"></span>
+				</h3>
+				
 			</div>
-			<div class="panel-body">
+			<div class="panel-body" id="outputBody">
 				<div class="btn-group btn-group-justified " role="group" aria-label="...">
 					<div class="btn-group" role="group">
 						<button type="button" id="noteon" class="btn btn-success"><strong>Note On C3</strong></button>
@@ -76,7 +80,7 @@
 				<div class="row">
 					<div class="col-lg-6" style="margin-top: 10px;">
 						<div class="input-group">
-							<input type="text" id="message" class="form-control" placeholder="eg: F0 01 02 03 F7">
+							<input type="text" id="message" class="form-control" placeholder="eg: 90 3C 7F or F0 01 02 03 F7">
 							<span class="input-group-btn">
 								<button id="send" class="btn btn-primary" type="button"><strong>Just Send</strong></button>
 							</span>
@@ -84,9 +88,9 @@
 					</div>						
 					<div class="col-lg-6" style="margin-top: 10px;">
 						<div class="input-group">
-							<input type="text" id="messageLoop" class="form-control" placeholder="eg: F0 01 02 03 F7">
+							<input type="text" id="messageLoop" class="form-control" placeholder="eg: 90 3C 7F or F0 01 02 03 F7">
 							<span class="input-group-btn">
-								<button id="sendLoop" class="btn btn-danger" type="button"><strong>Send With Loop</strong></button>
+								<button id="sendLoop" class="btn btn-danger" type="button" disabled="disabled"><strong>Send With Loop</strong></button>
 							</span>
 						</div>
 					</div>		
@@ -98,12 +102,12 @@
 	<div class="row" style="position: relative; margin-top: -30px;">
 		<div class="panel panel-default col-md-10 col-md-offset-1" style="border: 4px solid #aaa; background-color: black;">
 			<div class="panel-heading" style=" background-color: #aaa; margin-top: 1px;">
-				<h3 class="panel-title" style=""><strong>Iutput Section</strong></h3>
+				<h3 class="panel-title" style="text-align: center; color: purple"><strong>Iutput Section</strong></h3>
 			</div>
 			<div class="panel-body" style="margin-top: -15px;">
 				<div class="row" style="background-color: #5bc0de; text-align: center; border-radius: 5px;">
 					<div class="col-md-1 col-md-offset-1">
-						<button id="clear" class="btn btn-primary btn-md" style="margin-top: 3px;"><strong>Clear</strong></button>
+						<button id="clear" class="btn btn-warning btn-md" style="margin-top: 3px;"><strong>Clear</strong></button>
 					</div>
 					<div class="col-md-1">
 						<h4><strong>8n</strong><span id="Noteoff_show" class="badge">0</span></h4>
@@ -130,10 +134,10 @@
 						<h4><strong>SyEx</strong><span id="Sysex_show" class="badge">0</span></h4>
 					</div>
 					<div class="col-md-1">
-						<button id="reset" class="btn btn-primary btn-md" style="margin-top: 3px;"><strong>Reset</strong></button>
+						<button id="reset" class="btn btn-warning btn-md" style="margin-top: 3px;"><strong>Reset</strong></button>
 					</div>
 				</div>
-				<div id="show" class="" style="padding-left: 5%; height: 55%; overflow: auto; font-size: 18px;font-weight: bold;">
+				<div id="show" class="" style="padding-left: 5%; height: 56%; overflow: auto; font-size: 18px;font-weight: bold;">
 
 				</div>			
 		</div>	
