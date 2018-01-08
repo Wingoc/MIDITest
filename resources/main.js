@@ -441,22 +441,22 @@ $(function(){
 									var status = "";
 
 									// dataArr.forEach(function(value, index, array){
-									dataArr.for(function(value, index, array){
+									dataArr.forEach(function(value, index, array){
 										var item = "0x" + value.toUpperCase();
 
 										if (singleMidi.indexOf(item) >= 0){
 											statusArr.push(item);
 											status = statusArr.shift();
-											console.log(status);
-											console.log(midiData);
+											// console.log(status);
+											// console.log(midiData);
 											output.send(status, midiData);    // empty midiData
 											midiData.splice(0,midiData.length);
 											} else if (item > 127 && item < 256 && item != 247) {
 												statusArr.push(item);
 												if (statusArr.length > 1 || index == (array.length-1)) {
 													status = statusArr.shift();
-													console.log(status);
-													console.log(midiData);
+													// console.log(status);
+													// console.log(midiData);
 													output.send(status, midiData);
 													midiData.splice(0,midiData.length);    // empty midiData
 												}
@@ -464,8 +464,8 @@ $(function(){
 												midiData.push(item);									
 												if (index == (array.length-1)) {      // is the last element of array
 													status = statusArr.shift();
-													console.log(status);
-													console.log(midiData);	
+													// console.log(status);
+													// console.log(midiData);	
 													output.send(status, midiData);
 												}
 											}
