@@ -490,9 +490,6 @@ $(function(){
 
 						});
 					}
-					if ($("#devices").children().length == 0) {
-						alert("Sorry! Please make sure your MIDI device had connected!");
-					}
 				}
 			}
 		}, true);		
