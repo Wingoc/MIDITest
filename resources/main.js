@@ -75,7 +75,7 @@ $(function(){
 
 		WebMidi.enable(function (err) {
 			if (err) {
-				alert("Sorry! Please make sure your MIDI device had connected, or enable the 'SysEx' at the bottom right!");
+				alert("Sorry! Please make sure enable your MIDI or the 'SysEx'!");
 			} else {
 				console.log(WebMidi.sysexEnabled);
 
@@ -489,6 +489,9 @@ $(function(){
 
 
 						});
+					}
+					if ($("#devices").children().length == 0) {
+						alert("Sorry! Please make sure your MIDI device had connected!");
 					}
 				}
 			}
