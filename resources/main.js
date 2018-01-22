@@ -14,18 +14,34 @@ $(function(){
 	var noteon = $("#noteon");
 	var serial = $("#serial");
 	var continuity = $("#continuity");
+
+	var setContinue = $("#continue");
+	var continueSign = $("#continueSign");
+	var setContinueTime = 0;
+	var isContinue = false;
+	var setLoop = $("#loop");
+	var loopSign = $("#loopSign");
+	var setLoopTime = 0;
+	var isLoop = false;
+
+
 	var message = $("#message");
 	var send = $("#send");
 	var sendLoop = $("#sendLoop");
 	var messageLoop = $("#messageLoop");
 	var outputHeader = $("#outputHeader");
 	var outputBody = $("#outputBody");
-	var arrow = $("#arrow");
+	var arrow1 = $("#arrow1");
 	var outputShow = 0;
+
 
 	const singleMidi = ["0xF6", "0xF8", "0xFA", "0xFB", "0xFC", "0xFE", "0xFF"];
 
 	// Input Section
+	var inputHeader = $("#inputHeader");
+	var inputBody = $("#inputBody");
+	var arrow2 = $("#arrow2");
+	var inputShow = 0;
 	var clear = $("#clear");
 	var reset = $("#reset");
 	var Noteon_show = $("#Noteon_show");
@@ -54,19 +70,71 @@ $(function(){
 
 
 
-	// show or hide the panel-body
+	// show or hide the panel-body  -- Output
 	outputHeader.click(function(){
 		if (outputShow % 2 == 0) {
 			outputBody.css("display", "none");
-			arrow.attr("class", "glyphicon glyphicon-triangle-right");
+			arrow1.attr("class", "glyphicon glyphicon-triangle-right");
 			show.css("height", "70%");
 		} else {
 			outputBody.css("display", "block");
-			arrow.attr("class", "glyphicon glyphicon-triangle-bottom");
+			arrow1.attr("class", "glyphicon glyphicon-triangle-bottom");
 			show.css("height", "57%");
 		}
 		outputShow++;
 	});
+
+
+	// show or hide the panel-body  -- Input
+	inputHeader.click(function(){
+		if (inputShow % 2 == 0) {
+			inputBody.css("display", "none");
+			arrow2.attr("class", "glyphicon glyphicon-triangle-right");
+		} else {
+			inputBody.css("display", "block");
+			arrow2.attr("class", "glyphicon glyphicon-triangle-bottom");
+		}
+		inputShow++;
+	});
+
+
+	// Continue switch
+	setContinue.click(function(){
+		if (!isLoop) {
+			if (setContinueTime % 2 == 0) {
+				setContinue.attr("class", "btn btn-success col-md-5");
+				continueSign.attr("class", "glyphicon glyphicon-ok-sign");
+				isContinue = true;
+			} else {
+				setContinue.attr("class", "btn btn-danger col-md-5");
+				continueSign.attr("class", "glyphicon glyphicon-remove-sign");	
+				isContinue = false;
+			}
+			setContinueTime++;			
+		} else {
+			alert("[Continue] and [Loop] can't be opened at the same time!");
+		}
+	});
+
+	// Loop switch
+	setLoop.click(function(){
+		if (!isContinue) {
+			if (setLoopTime % 2 == 0) {
+				setLoop.attr("class", "btn btn-success col-md-5 col-md-offset-1");
+				loopSign.attr("class", "glyphicon glyphicon-ok-sign");
+				isLoop = true;
+			} else {
+				setLoop.attr("class", "btn btn-danger col-md-5 col-md-offset-1");
+				loopSign.attr("class", "glyphicon glyphicon-remove-sign");	
+				isLoop = false;
+			}
+			setLoopTime++;
+		} else {
+			alert("Sorry! [Continue] and [Loop] can't be opened at the same time!");
+		}	
+	});
+
+
 
 	
 
@@ -110,8 +178,9 @@ $(function(){
 									Noteoff_show.text(all_noteoff);
 
 									/* for loop test */
-									// output.send(e.data[0], [e.data[1], e.data[2]]); 
-									/* ************* */
+									if (isLoop) {
+										output.send(e.data[0], [e.data[1], e.data[2]]); 										
+									}
 
 									var color = "#009797";
 									var raw = e.data;
@@ -128,9 +197,15 @@ $(function(){
 								function (e) {
 									all_noteon++;
 									Noteon_show.text(all_noteon);
-									var color = "#06ff06";
 
+									/* for Loop test */
+									if (isLoop) {
+										output.send(e.data[0], [e.data[1], e.data[2]]); 										
+									}
+
+									var color = "#06ff06";
 									var raw = e.data;
+
 									var processed = RawDataProcessing(raw); 									  
 									createElement(devName, processed, color);
 
@@ -143,6 +218,11 @@ $(function(){
 								function (e) {
 									all_keyaftertouch++;
 									An_show.text(all_keyaftertouch);
+
+									/* for loop test */
+									if (isLoop) {
+										output.send(e.data[0], [e.data[1], e.data[2]]); 										
+									}
 
 									var color = "#32D6DA";
 									var raw = e.data;
@@ -161,6 +241,11 @@ $(function(){
 									all_controlb++;
 									Bn_show.text(all_controlb);
 
+									/* for loop test */
+									if (isLoop) {
+										output.send(e.data[0], [e.data[1], e.data[2]]); 										
+									}
+
 									var color = "#0BA4FF";
 									var raw = e.data;
 
@@ -176,6 +261,11 @@ $(function(){
 								function (e) {
 									all_controlb++;
 									Bn_show.text(all_controlb);
+
+									/* for loop test */
+									if (isLoop) {
+										output.send(e.data[0], [e.data[1], e.data[2]]); 										
+									}
 
 									var color = "#0BA4FF";
 									var raw = e.data;
@@ -193,6 +283,11 @@ $(function(){
 									all_programchange++;
 									Cn_show.text(all_programchange);
 
+									/* for loop test */
+									if (isLoop) {
+										output.send(e.data[0], [e.data[1]]); 										
+									}
+
 									var color = "#B543CC";
 									var raw = e.data;
 
@@ -208,6 +303,11 @@ $(function(){
 								function (e) {
 									all_channelaftertouch++;
 									Dn_show.text(all_channelaftertouch);
+
+									/* for loop test */
+									if (isLoop) {
+										output.send(e.data[0], [e.data[1]]); 										
+									}
 
 									var color = "#32D6DA";
 									var raw = e.data;
@@ -225,6 +325,11 @@ $(function(){
 									all_pitchbend++;
 									En_show.text(all_pitchbend);
 
+									/* for loop test */
+									if (isLoop) {
+										output.send(e.data[0], [e.data[1], e.data[2]]); 										
+									}
+
 									var color = "#FF0683";
 									var raw = e.data;
 
@@ -240,6 +345,26 @@ $(function(){
 								function (e) {
 									all_sysex++;
 									Sysex_show.text(all_sysex);
+
+
+									/* for loop test */
+									if (isLoop) {
+										var tempArr = [];
+										var sendArr = [];
+										for (var i = 0; i < e.data.length; i++) {
+											sendArr.push(e.data[i]);
+											var tempStr = e.data[i].toString(16);
+											if (tempStr.length < 2) {
+												tempStr = "0" + tempStr;
+												tempArr.push(tempStr);
+											}else {
+												tempArr.push(tempStr);
+											}
+										};
+										sendArr.shift();
+										sendArr.pop();
+										output.sendSysex([], sendArr);
+									}
 
 									var color = "#FFFF8E";
 									var raw = e.data;
@@ -395,6 +520,7 @@ $(function(){
 
 
 							/********* Output Section ********/
+
 							// Note On C3
 							noteon.click(function(){
 								output.playNote("C3", 1, {velocity: 1});
@@ -500,22 +626,6 @@ $(function(){
 	
 
 
-
-
-
-	function NoteOnC3(){
-
-	}
-
-
-
-
-
-
-
-
-
-
 	// return Array
 	function RawDataProcessing(data) {
 
@@ -549,7 +659,7 @@ $(function(){
 	function AutoClear() {
 
 		var sum = all_noteon + all_noteoff + all_keyaftertouch + all_controlb + all_pitchbend + all_channelaftertouch + all_programchange;
-		if ((sum+2)%502 == 0 || (all_sysex+1)%20 == 0) {
+		if ((sum+2)%302 == 0 || (all_sysex+1)%200 == 0) {
 			Clear();
 		}
 	}
