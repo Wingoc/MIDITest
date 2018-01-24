@@ -549,7 +549,7 @@ $(function(){
 									clickTime++;
 									clearInterval(stop);
 									continuity.html("<strong>Noto On C3 Continuity</strong>");
-									continuity.css("color", "white");
+									continuity.css("color", "black");
 								}
 							});
 
