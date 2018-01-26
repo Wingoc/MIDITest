@@ -64,9 +64,15 @@ $(function(){
 	var all_channelaftertouch = 0;
 	var all_pitchbend = 0;
 	var all_sysex = 0;
-
 	var clickTime = 0;
 	var stop = "";
+
+
+	// Loop delay time
+	var timeCollection = [];
+	var timePrevious = 0;
+	var timeNext = 0;
+	var timeInterval = 0;
 
 
 
@@ -198,9 +204,20 @@ $(function(){
 									all_noteon++;
 									Noteon_show.text(all_noteon);
 
+									timeNext = (new Date()).valueOf();
+									timeInterval = timeNext - timePrevious;
+									timePrevious = timeNext;
+
 									/* for Loop test */
 									if (isLoop) {
-										output.send(e.data[0], [e.data[1], e.data[2]]); 										
+										output.send(e.data[0], [e.data[1], e.data[2]]); 
+
+										timeCollection.push(timeInterval);
+										if (all_noteon == 11001){
+											timeCollection.splice(0, 1001);
+											var avgTime = avgFun(timeCollection);
+											alert("平均延时时间: " + avgTime.toString() + "ms");
+										}
 									}
 
 									var color = "#06ff06";
@@ -221,7 +238,7 @@ $(function(){
 
 									/* for loop test */
 									if (isLoop) {
-										output.send(e.data[0], [e.data[1], e.data[2]]); 										
+										output.send(e.data[0], [e.data[1], e.data[2]]); 
 									}
 
 									var color = "#32D6DA";
@@ -628,7 +645,6 @@ $(function(){
 
 	// return Array
 	function RawDataProcessing(data) {
-
 		var tempArr = [];
 		for (var i = 0; i < data.length; i++) {
 			var str = data[i].toString(16).toUpperCase();
@@ -644,7 +660,6 @@ $(function(){
 
 	// return none
 	function createElement(name, arr, color){
-
 		var timestamp = (new Date()).valueOf().toString();
 		// &ensp; -- An English space placeholder
 		var message = (timestamp + "&emsp;&emsp;&emsp;" + name + "&emsp;&emsp;&emsp;" + arr.join("&ensp;"));
@@ -657,7 +672,6 @@ $(function(){
 
 	// MIDI Message > 200 and SysEx Message will auto clear the Input Section
 	function AutoClear() {
-
 		var sum = all_noteon + all_noteoff + all_keyaftertouch + all_controlb + all_pitchbend + all_channelaftertouch + all_programchange;
 		if ((sum+2)%302 == 0 || (all_sysex+1)%200 == 0) {
 			Clear();
@@ -670,8 +684,7 @@ $(function(){
 	});
 
 	// Reset calculation
-	reset.click(function(){
-		
+	reset.click(function(){		
 		all_noteoff = 0;
 		all_noteon = 0;	
 		all_keyaftertouch = 0;	
@@ -699,6 +712,17 @@ $(function(){
 	// Clear shown message
 	function Clear(){
 		show.text(" ");
+	}
+
+	// Avg for Looptime delay
+	function avgFun(arr) {
+		var sum = 0;
+		var avg = 0;
+		for (var i=0; i<arr.length; i++){
+			sum += arr[i]; 
+		}
+		avg = (sum / arr.length).toFixed(1);
+		return avg;
 	}
 
 });
