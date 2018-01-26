@@ -4,9 +4,12 @@ $(function(){
 	// header 
 	var connect = $("#connect");
 	var currentDev = $("#currentDev");
-	var audio = $("#audio");
 	var refresh = $("#refresh");
 	var deviceId = 0;
+	var audio = $("#audio");
+	var calcuAudio = 0;
+	var isAudio = false;
+
 
 
 	// Output Section
@@ -142,8 +145,18 @@ $(function(){
 	});
 
 
+	// Audio switch
+	audio.click(function(){
+		if (calcuAudio % 2 == 0) {
+			audio.attr("class", "btn btn-success col-md-1 col-md-offset-6");
+			isAudio = true;
+		} else {
+			audio.attr("class", "btn btn-primary col-md-1 col-md-offset-6");
+			isAudio = false;
+		}
+		calcuAudio++;
+	});
 
-	
 
 
 	connect.click(function(){
@@ -177,6 +190,11 @@ $(function(){
 							currentDev.text(" ");
 							currentDev.append(current);
 
+							// init timbre.js
+							var msec  = timbre.timevalue("bpm300 l8");
+							var synth = T("OscGen", {env:T("perc", {r:msec, ar:true})}).play();
+							var midicps = T("midicps");
+
 
 							// Note Off Listener
 							input.addListener('noteoff', "all", 
@@ -208,6 +226,17 @@ $(function(){
 									timeNext = (new Date()).valueOf();
 									timeInterval = timeNext - timePrevious;
 									timePrevious = timeNext;
+
+
+									// Audio Play
+									if (isAudio) {
+										var freq = midicps.at(e.data[1]);
+										// Drum machine notes to raise an octave to listen more clearly
+										// var freq = midicps.at(e.data[1] + 12);
+										synth.noteOnWithFreq(freq, 100);
+									}
+
+
 
 									/* for Loop test */
 									if (isLoop) {
