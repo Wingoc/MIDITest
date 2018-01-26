@@ -213,8 +213,8 @@ $(function(){
 										output.send(e.data[0], [e.data[1], e.data[2]]); 
 
 										timeCollection.push(timeInterval);
-										if (all_noteon == 11001){
-											timeCollection.splice(0, 1001);
+										if (all_noteon == 1101){
+											timeCollection.splice(0, 101);
 											var avgTime = avgFun(timeCollection);
 											alert("平均延时时间: " + avgTime.toString() + "ms");
 										}
