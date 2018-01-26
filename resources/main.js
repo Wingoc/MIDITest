@@ -69,6 +69,7 @@ $(function(){
 
 
 	// Loop delay time
+	var receiveCheck = [];
 	var timeCollection = [];
 	var timePrevious = 0;
 	var timeNext = 0;
@@ -210,11 +211,12 @@ $(function(){
 
 									/* for Loop test */
 									if (isLoop) {
+
 										output.send(e.data[0], [e.data[1], e.data[2]]); 
 
 										timeCollection.push(timeInterval);
-										if (all_noteon == 1101){
-											timeCollection.splice(0, 101);
+										if (all_noteon == 11001){
+											timeCollection.splice(0, 1001);
 											var avgTime = avgFun(timeCollection);
 											alert("平均延时时间: " + avgTime.toString() + "ms");
 										}
