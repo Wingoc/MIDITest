@@ -394,6 +394,8 @@ $(function(){
 									all_sysex++;
 									Sysex_show.text(all_sysex);
 
+									console.log(e.data.length);
+
 
 									/* for loop test */
 									if (isLoop) {
@@ -609,7 +611,7 @@ $(function(){
 									alert("The input value can not be empty!");
 								} else {
 									var dataArr = data.split(" ");
-									console.log(dataArr);
+									// console.log(dataArr);
 									var statusArr = [];
 									var midiData = [];
 									var status = "";
