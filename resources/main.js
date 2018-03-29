@@ -483,18 +483,18 @@ $(function(){
 								});
 
 							// F8 Listener
-							// input.addListener('clock', "all", 
-							// 	function (e) {
+							input.addListener('clock', "all", 
+								function (e) {
 
-							// 		var color = "red";
-							// 		var raw = e.data;
+									var color = "red";
+									var raw = e.data;
 
-							// 		var processed = RawDataProcessing(raw);   
-							// 		createElement(devName, processed, color);
+									var processed = RawDataProcessing(raw);   
+									createElement(devName, processed, color);
 
-							// 		show[0].scrollTop = show[0].scrollHeight;
-							// 		AutoClear();
-							// 	});
+									show[0].scrollTop = show[0].scrollHeight;
+									AutoClear();
+								});
 
 							// FA Listener
 							input.addListener('start', "all", 
@@ -539,18 +539,18 @@ $(function(){
 								});
 
 							// FE Listener
-							// input.addListener('activesensing', "all", 
-							// 	function (e) {
+							input.addListener('activesensing', "all", 
+								function (e) {
 
-							// 		var color = "red";
-							// 		var raw = e.data;
+									var color = "red";
+									var raw = e.data;
 
-							// 		var processed = RawDataProcessing(raw);   
-							// 		createElement(devName, processed, color);
+									var processed = RawDataProcessing(raw);   
+									createElement(devName, processed, color);
 
-							// 		show[0].scrollTop = show[0].scrollHeight;
-							// 		AutoClear();
-							// 	});
+									show[0].scrollTop = show[0].scrollHeight;
+									AutoClear();
+								});
 
 							// FF Listener
 							input.addListener('reset', "all", 
@@ -693,9 +693,19 @@ $(function(){
 
 	// return none
 	function createElement(name, arr, color){
+
+		// Customary
 		var timestamp = (new Date()).valueOf().toString();
 		// &ensp; -- An English space placeholder
 		var message = (timestamp + "&emsp;&emsp;&emsp;" + name + "&emsp;&emsp;&emsp;" + arr.join("&ensp;"));
+
+
+		// Modified
+		// var timestamp = (new Date()).valueOf().toString();
+		// &ensp; -- An English space placeholder
+		// var message = ("&emsp;&emsp;&emsp;" + name + "&emsp;&emsp;&emsp;" + arr.join("&ensp;"));
+
+
 		var elemet = $("<span>" + message + "</span>");
 		elemet.css("color", color);
 		var br = $("<br>");
